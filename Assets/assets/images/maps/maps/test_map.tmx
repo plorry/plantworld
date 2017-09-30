@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="checkerboard" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="checkerboard.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="201" name="players" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="../units/plants-sprite-art.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="401" name="plants" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="map_tiles.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="601" name="fog" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="fog.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="801" name="elder-spotlight" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="elder-spotlight.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="1001" name="map_tiles" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="map_tiles.png" width="160" height="320"/>
+ </tileset>
+ <layer name="Base" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzjZGFg4BzFo3gUj+JRPIpH8SgexVTDABfRHnk=
+  </data>
+ </layer>
+ <layer name="rivers?" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYCANqLOQqIFKYDjZK0KEmbSwV26A7CUG0MNebOFOir3ExBs2gC3cSbGXmHgjFmCzl1x/EQLI5mKzF9lflhS6AdkuOQL2UhNgixt9oJgRVFycBRUTA8iND2S/KrKgYmIAul/EWVBpYuxFB8T6GRnA3IvN3c5AMVcWVHs9gLQnmlpi/Uws8AWa5wfE/iwQewOBOAiIg4mwh5T4xKcWZG8yjcoNfGoNgXKqaFgNiA0GoK7IZcFMb+SkMXIAur3EpDEAzI4M5w==
+  </data>
+ </layer>
+</map>
