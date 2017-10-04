@@ -19,7 +19,5 @@ public class CursorBehavior : MonoBehaviour {
 
         pos.x = Mathf.Floor(Input.mousePosition.x / 16) - map.transform.position.x;
         pos.y = Mathf.Floor(Input.mousePosition.y / 16) - map.transform.position.y + (size.y / 2);
-
-        print(pos);
     }
 }
