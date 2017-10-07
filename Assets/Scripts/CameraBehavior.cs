@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tiled2Unity;
+using System;
 
 public class CameraBehavior : MonoBehaviour {
 	public TiledMap myMap;
+
+	private int mapTop;
+	private int mapBottom;
+	private int mapLeft;
+	private int mapRight;
 
 	private int left;
 	private int right;
@@ -16,26 +22,80 @@ public class CameraBehavior : MonoBehaviour {
 	private RectTransform myRect;
 
 	private int xDiff;
+	private int yDiff;
 
 	// Use this for initialization
 	void Start () {
-		InitBoundary();
+		InitBoundary();		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (left < myMap.transform.position.x) {
-			xDiff = (int)(myMap.transform.position.x - left);
+		CorrectBoundary();
+	}
+
+	private void CorrectBoundary() {
+		xDiff = 0;
+		yDiff = 0;
+		CorrectLeft();
+		CorrectRight();
+		CorrectTop();
+		CorrectBottom();
+	}
+
+    private void CorrectBottom()
+    {
+        if (bottom < mapBottom) {
+			yDiff = mapBottom - bottom;
+			transform.Translate(new Vector3(0, yDiff, 0));
+			CalculateBoundary();
+		}
+    }
+
+    private void CorrectTop()
+    {
+        if (top > mapTop) {
+			yDiff = mapTop - top;
+			transform.Translate(new Vector3(0, yDiff, 0));
+			CalculateBoundary();
+		}
+    }
+
+    private void CorrectRight()
+    {
+        if (right > mapRight) {
+			print("shifting left");
+			xDiff = mapRight - right;
 			transform.Translate(new Vector3(xDiff, 0, 0));
+			CalculateBoundary();
+		}
+    }
+
+    private void CorrectLeft(){
+		if (left < mapLeft) {
+			print("shifting right");
+			xDiff = mapLeft - left;
+			transform.Translate(new Vector3(xDiff, 0, 0));
+			CalculateBoundary();
 		}
 	}
 
 	private void InitBoundary() {
 		height = (int)Camera.main.orthographicSize;
 		width = (int)(Camera.main.aspect * height);
+
+		mapTop = (int)myMap.transform.position.y;
+		mapBottom = mapTop - (int)myMap.GetMapHeightInPixelsScaled();
+		mapLeft = (int)myMap.transform.position.x;
+		mapRight = mapLeft + (int)myMap.GetMapWidthInPixelsScaled();
+
+		CalculateBoundary();
+	}
+
+	private void CalculateBoundary() {
 		left = (int)(transform.position.x - width);
 		right = left + (width * 2);
-		top = (int)(transform.position.y - height);
-		bottom = top + (height * 2);
+		top = (int)(transform.position.y + height);
+		bottom = top - (height * 2);
 	}
 }

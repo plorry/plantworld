@@ -6,6 +6,7 @@ public class TileBehavior : MonoBehaviour {
     private SmartGridBehavior myGrid;
     private Vector2 myCoords;
     private List<GameObject> myContents;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,7 @@ public class TileBehavior : MonoBehaviour {
     public void Init (SmartGridBehavior smartGrid, Vector2 coords) {
         myGrid = smartGrid;
         myCoords = coords;
+       // GUI.Box
     }
 
     // Return this tile's contents
