@@ -3,21 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CursorBehavior : MonoBehaviour {
-    private Vector2 pos;
-    private Vector3 size;
-    public GameObject map;
+    public SmartGridBehavior myGrid;
+    public Camera myCamera;
+
+    private Vector3 mouseCoords;
+    private TileBehavior currentTile;
+    private TileItemBehavior selected;
 
 	// Use this for initialization
 	void Start () {
-        pos = transform.position;
-        size = GetComponent<SpriteRenderer>().bounds.size;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = pos;
+        if (GetCurrentTile() != null && GetCurrentTile() != currentTile) {
+            currentTile = GetCurrentTile();
+            transform.position = new Vector3(currentTile.transform.position.x, currentTile.transform.position.y, currentTile.transform.position.z);
+        }
+    }
 
-        pos.x = Mathf.Floor(Input.mousePosition.x / 16) - map.transform.position.x;
-        pos.y = Mathf.Floor(Input.mousePosition.y / 16) - map.transform.position.y + (size.y / 2);
+    private TileBehavior GetCurrentTile() {
+        mouseCoords = myCamera.ScreenToWorldPoint(Input.mousePosition);
+        return myGrid.GetTileAt(Mathf.FloorToInt(mouseCoords.x), Mathf.FloorToInt(-mouseCoords.y));
+    }
+
+    public TileBehavior GetTile() {
+        return currentTile;
+    }
+
+    public TileItemBehavior GetSelected() {
+        return selected;
+    }
+
+    public void Select (TileItemBehavior item) {
+        
+    }
+
+    private void SetSelected (TileItemBehavior item) {
+        selected = item;
+        item.GetTile();
     }
 }

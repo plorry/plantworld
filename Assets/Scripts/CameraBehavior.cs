@@ -64,7 +64,6 @@ public class CameraBehavior : MonoBehaviour {
     private void CorrectRight()
     {
         if (right > mapRight) {
-			print("shifting left");
 			xDiff = mapRight - right;
 			transform.Translate(new Vector3(xDiff, 0, 0));
 			CalculateBoundary();
@@ -73,7 +72,6 @@ public class CameraBehavior : MonoBehaviour {
 
     private void CorrectLeft(){
 		if (left < mapLeft) {
-			print("shifting right");
 			xDiff = mapLeft - left;
 			transform.Translate(new Vector3(xDiff, 0, 0));
 			CalculateBoundary();
