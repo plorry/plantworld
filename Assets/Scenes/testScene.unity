@@ -844,6 +844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myName: Tommy
   myGrid: {fileID: 0}
+  exhausted: 0
 --- !u!1 &1213475988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,3 +1194,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2994cd50450cc4ebd6483eac2230bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCursor: {fileID: 1029603392}

@@ -9,10 +9,15 @@ public class CursorBehavior : MonoBehaviour {
     private Vector3 mouseCoords;
     private TileBehavior currentTile;
     private TileItemBehavior selected;
+    private List<TileBehavior> availableTiles;
 
 	// Use this for initialization
 	void Start () {
 	}
+
+    void Awake () {
+        availableTiles = new List<TileBehavior>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,12 +40,25 @@ public class CursorBehavior : MonoBehaviour {
         return selected;
     }
 
-    public void Select (TileItemBehavior item) {
-        
+    public void Select () {
+        if (GetTile().ContainsSelectable()) {
+            Deselect();
+            SetSelected(GetTile().GetSelectable());
+            availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed(), null);
+        }
+        foreach(TileBehavior tile in availableTiles) {
+            print(tile.ToString());
+            tile.Highlight();
+        }
+    }
+
+    public void Deselect () {
+        selected = default(TileItemBehavior);
+        availableTiles = new List<TileBehavior>();
     }
 
     private void SetSelected (TileItemBehavior item) {
         selected = item;
-        item.GetTile();
+        item.MyTile();
     }
 }

@@ -11,10 +11,23 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetMouseButtonDown(0)) {
+			Select();
+		}
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Deselect();
+		}
+		if (Input.GetAxis("Horizontal") > 0.5) {
+			myCursor.GetSelected().Move("right");
+			print("right");
+		}
 	}
 
 	private void Select () {
 		myCursor.Select();
+	}
+
+	private void Deselect() {
+		myCursor.Deselect();
 	}
 }

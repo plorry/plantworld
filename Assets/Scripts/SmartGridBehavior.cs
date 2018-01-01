@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 /*
     The SmartGrid manages the Grid state.
@@ -23,7 +24,7 @@ public class SmartGridBehavior : MonoBehaviour {
 
 	void Start () {
 		Init();
-        AddItemToTileAt(testItem, 3, 3);
+        AddItemToTileAt(testItem, 12, 12);
 	}
 
     // Basically copying over a few settings from Tiled2Unity object
@@ -79,10 +80,13 @@ public class SmartGridBehavior : MonoBehaviour {
     private void UpdateDebug () {
         TileBehavior t = myCursor.GetTile();
 
+        string selected = (myCursor.GetSelected()) ? myCursor.GetSelected().ToString() : "";
+
         debugPanel.transform.Find("Xdisplay").GetComponent<Text>().text = t.GetCoords().x.ToString();
         debugPanel.transform.Find("Ydisplay").GetComponent<Text>().text = t.GetCoords().y.ToString();
         debugPanel.transform.Find("PropertiesDisplay").GetComponent<Text>().text = string.Join(" ", t.GetProperties().ToArray());
         debugPanel.transform.Find("ContentsDisplay").GetComponent<Text>().text = string.Join(" ", t.GetContentNames().ToArray());
+        // debugPanel.transform.Find("SelectedDisplay").GetComponent<Text>().text = selected;
     }
 
     public TileBehavior GetTileAt (int x, int y) {
@@ -92,7 +96,39 @@ public class SmartGridBehavior : MonoBehaviour {
         return myTiles[y][x];
     }
 
+    public TileBehavior GetTileAt (float x, float y) {
+        return GetTileAt((int)x, (int)y);
+    }
+
+    public TileBehavior GetTileAt (Vector2 coords) {
+        return GetTileAt(coords.x, coords.y);
+    }
+
     public void AddItemToTileAt(TileItemBehavior item, int x, int y) {
-        GetTileAt(x, y).AddContent(item);
+        item.SetCurrentTile(GetTileAt(x, y));
+        // GetTileAt(x, y).AddContent(item);
+    }
+
+    public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance, List<TileBehavior> availableTiles) {
+        if (availableTiles == null) availableTiles = new List<TileBehavior>();
+
+        if (distance <= 0) return availableTiles;
+
+        List<TileBehavior> checkNeighbours = new List<TileBehavior>();
+
+        foreach(TileBehavior neighbour in tile.GetNeighbours()) {
+            if (!availableTiles.Contains(neighbour)) {
+                if (!neighbour.GetProperties().Contains("water") && !neighbour.GetProperties().Contains("rock")) {
+                    availableTiles.Add(neighbour);
+                    checkNeighbours.Add(neighbour);
+                }
+            }
+        }
+
+        foreach(TileBehavior neighbour in checkNeighbours) {
+            availableTiles = GetAvailableTiles(neighbour, distance - 1, availableTiles);
+        }
+
+        return availableTiles;
     }
 }
