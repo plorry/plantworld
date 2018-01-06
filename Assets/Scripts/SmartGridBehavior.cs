@@ -24,7 +24,7 @@ public class SmartGridBehavior : MonoBehaviour {
 
 	void Start () {
 		Init();
-        AddItemToTileAt(testItem, 12, 12);
+        AddItemToTileAt(testItem, 5, 5);
 	}
 
     // Basically copying over a few settings from Tiled2Unity object
@@ -105,30 +105,35 @@ public class SmartGridBehavior : MonoBehaviour {
     }
 
     public void AddItemToTileAt(TileItemBehavior item, int x, int y) {
+        item.SetHomeTile(GetTileAt(x, y));
         item.SetCurrentTile(GetTileAt(x, y));
         // GetTileAt(x, y).AddContent(item);
     }
 
-    public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance, List<TileBehavior> availableTiles) {
-        if (availableTiles == null) availableTiles = new List<TileBehavior>();
+    public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance) {
+        List<TileBehavior> availableTiles = new List<TileBehavior>();
 
         if (distance <= 0) return availableTiles;
 
-        List<TileBehavior> checkNeighbours = new List<TileBehavior>();
+        List<TileBehavior> lastLayer = new List<TileBehavior>();
+        List<TileBehavior> thisLayer;
+        lastLayer.Add(tile);
 
-        foreach(TileBehavior neighbour in tile.GetNeighbours()) {
-            if (!availableTiles.Contains(neighbour)) {
-                if (!neighbour.GetProperties().Contains("water") && !neighbour.GetProperties().Contains("rock")) {
-                    availableTiles.Add(neighbour);
-                    checkNeighbours.Add(neighbour);
+        while (distance > 0) {
+            thisLayer = new List<TileBehavior>();
+            foreach(TileBehavior thisTile in lastLayer) {
+                foreach(TileBehavior neighbour in thisTile.GetNeighbours()) {
+                    if (neighbour.IsTraversable() && !thisLayer.Contains(neighbour) && !availableTiles.Contains(neighbour)) {
+                        thisLayer.Add(neighbour);
+                    }
                 }
             }
-        }
 
-        foreach(TileBehavior neighbour in checkNeighbours) {
-            availableTiles = GetAvailableTiles(neighbour, distance - 1, availableTiles);
-        }
+            lastLayer = thisLayer;
+            availableTiles = availableTiles.Concat(thisLayer).ToList();
 
+            distance--;
+        }
         return availableTiles;
     }
 }

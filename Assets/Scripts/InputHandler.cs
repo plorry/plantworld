@@ -11,6 +11,11 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
+			Select();
+		} else if (Input.GetKeyDown(KeyCode.Joystick1Button2)) {
+			Deselect();
+		}
 		if (Input.GetMouseButtonDown(0)) {
 			Select();
 		}
@@ -18,8 +23,23 @@ public class InputHandler : MonoBehaviour {
 			Deselect();
 		}
 		if (Input.GetAxis("Horizontal") > 0.5) {
-			myCursor.GetSelected().Move("right");
-			print("right");
+			Right();
+		} else if (Input.GetAxis("Vertical") > 0.5) {
+			Up();
+		} else if (Input.GetAxis("Horizontal") < -0.5) {
+			Left();
+		} else if (Input.GetAxis("Vertical") < -0.5) {
+			Down();
+		}
+
+		if (Input.GetAxis("DPadX") > 0.5) {
+			Right();
+		} else if (Input.GetAxis("DPadY") > 0.5) {
+			Up();
+		} else if (Input.GetAxis("DPadX") < -0.5) {
+			Left();
+		} else if (Input.GetAxis("DPadY") < -0.5) {
+			Down();
 		}
 	}
 
@@ -29,5 +49,21 @@ public class InputHandler : MonoBehaviour {
 
 	private void Deselect() {
 		myCursor.Deselect();
+	}
+
+	private void Left() {
+		myCursor.Left();
+	}
+
+	private void Right() {
+		myCursor.Right();
+	}
+
+	private void Up() {
+		myCursor.Up();
+	}
+
+	private void Down() {
+		myCursor.Down();
 	}
 }

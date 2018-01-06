@@ -10,16 +10,33 @@ public class TileItemBehavior : MonoBehaviour {
 	private int speed = 5;
 	private TileBehavior homeTile;
 	private TileBehavior currentTile;
+	private TileBehavior destinationTile;
+	private bool moving = false;
 	public bool exhausted = false;
 
 	// Use this for initialization
 	void Start () {
-		
+		transform.position = currentTile.transform.position;
+		destinationTile = currentTile = homeTile;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = currentTile.transform.position;
+		UpdatePosition();
+	}
+
+	private void UpdatePosition () {
+		if (AtDestination() && moving == true) {
+			moving = false;
+			SetCurrentTile(destinationTile);
+		}
+
+		if (currentTile != destinationTile) {
+			moving = true;
+			transform.position = Vector2.MoveTowards(transform.position, destinationTile.transform.position, 0.05f);
+		} else {
+			transform.position = currentTile.transform.position;
+		}
 	}
 
 	public string GetName() {
@@ -34,18 +51,40 @@ public class TileItemBehavior : MonoBehaviour {
 		return currentTile;
 	}
 
+	public void SetDestinationTile (TileBehavior tile) {
+		destinationTile = tile;
+	}
+
+	private bool AtDestination () {
+		return (transform.position - destinationTile.transform.position).sqrMagnitude < 1.01;
+	}
+
+	private bool CanMove () {
+		return moving == false;
+	}
+
+	public void SetHomeTile (TileBehavior tile) {
+		homeTile = tile;
+	}
+
 	public void SetCurrentTile (TileBehavior tile) {
 		if (currentTile) currentTile.RemoveContent(this);
 		currentTile = tile;
 		currentTile.AddContent(this);
 	}
 
+	public TileBehavior GetCurrentTile () {
+		return currentTile;
+	}
+
 	public void MoveTo(TileBehavior tile) {
-		SetCurrentTile(tile);
+		SetDestinationTile(tile);
 	}
 
 	public void Move (string direction) {
-		MoveTo(currentTile.GetNeighbour(direction));
+		if (CanMove()) {
+			MoveTo(currentTile.GetNeighbour(direction));
+		}
 	}
 
 	public void Exhaust () {
@@ -58,5 +97,13 @@ public class TileItemBehavior : MonoBehaviour {
 
 	public int GetSpeed () {
 		return speed;
+	}
+
+	public void Deselect () {
+		destinationTile = currentTile = homeTile;
+	}
+
+	public void LockIn () {
+		SetHomeTile(currentTile);
 	}
 }

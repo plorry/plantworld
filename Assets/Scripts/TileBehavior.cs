@@ -130,6 +130,11 @@ public class TileBehavior : MonoBehaviour {
 
     public void Unhighlight () {
         highlight = false;
+        alpha = 0;
         Highlight(new Color(1f, 1f, 1f, 0f));
+    }
+
+    public bool IsTraversable () {
+        return (!myProperties.Contains("water") && !myProperties.Contains("rock"));
     }
 }
