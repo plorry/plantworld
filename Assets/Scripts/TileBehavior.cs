@@ -6,7 +6,7 @@ using System.Linq;
 public class TileBehavior : MonoBehaviour {
     private SmartGridBehavior myGrid;
     private Vector2 myCoords;
-    private List<TileItemBehavior> myContents;
+    private List<Unit> myContents;
     private List<string> myProperties;
 
     public GameObject guiPrefab;
@@ -18,7 +18,7 @@ public class TileBehavior : MonoBehaviour {
     
 
     void Awake() {
-        myContents = new List<TileItemBehavior>();
+        myContents = new List<Unit>();
         myProperties = new List<string>();
     }
 
@@ -53,7 +53,7 @@ public class TileBehavior : MonoBehaviour {
     }
 
     // Return this tile's contents
-    public List<TileItemBehavior> GetContents () {
+    public List<Unit> GetContents () {
         return myContents;
     }
 
@@ -62,15 +62,15 @@ public class TileBehavior : MonoBehaviour {
     }
 
     // Add a GameObject to this tile
-    public void AddContent (TileItemBehavior obj) {
+    public void AddContent (Unit obj) {
         myContents.Add(obj);
     }
 
-    public void RemoveContent (TileItemBehavior obj) {
+    public void RemoveContent (Unit obj) {
         myContents.Remove(obj);
     }
 
-    public bool Contains (TileItemBehavior obj) {
+    public bool Contains (Unit obj) {
         return myContents.Contains(obj);
     }
 
@@ -78,7 +78,7 @@ public class TileBehavior : MonoBehaviour {
         return myContents.Any(obj => (obj.belongsTo == "player" && obj.exhausted == false));
     }
 
-    public TileItemBehavior GetSelectable () {
+    public Unit GetSelectable () {
         return myContents.First(obj => obj.belongsTo == "player" && obj.exhausted == false);
     }
 

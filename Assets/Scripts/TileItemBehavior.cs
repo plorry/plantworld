@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileItemBehavior : MonoBehaviour {
+public class Unit : MonoBehaviour {
 	public string myName;
 	public SmartGridBehavior myGrid;
 	private Vector2 myCoords;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-	private List<TileItemBehavior> myUnits;
+	private List<Unit> myUnits;
 	private bool myTurn;
 	private string myName;
 	private List<Player> enemies;
@@ -19,11 +19,11 @@ public class Player : MonoBehaviour {
 		
 	}
 
-	public void AddUnit (TileItemBehavior unit) {
+	public void AddUnit (Unit unit) {
 		myUnits.Add(unit);
 	}
 
-	public List<TileItemBehavior> GetUnits () {
+	public List<Unit> GetUnits () {
 		return myUnits;
 	}
 
@@ -42,13 +42,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void WakeMyUnits () {
-		foreach (TileItemBehavior unit in GetUnits()) {
+		foreach (Unit unit in GetUnits()) {
 			unit.WakeUp();
 		}
 	}
 
 	public void ExhaustMyUnits () {
-		foreach (TileItemBehavior unit in GetUnits()) {
+		foreach (Unit unit in GetUnits()) {
 			unit.Exhaust();
 		}
 	}
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
 		return myName;
 	}
 
-	public bool IsMyUnit (TileItemBehavior unit) {
+	public bool IsMyUnit (Unit unit) {
 		return myUnits.Contains(unit);
 	}
 

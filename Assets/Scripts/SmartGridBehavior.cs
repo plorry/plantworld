@@ -15,7 +15,7 @@ public class SmartGridBehavior : MonoBehaviour {
 
     public CursorBehavior myCursor;
     public TileBehavior tilePrefab;
-    public TileItemBehavior testItem;
+    public Unit testItem;
     private Tiled2Unity.ObjectLayer objectLayer;
     public Tiled2Unity.TiledMap tiledMap;
     public GameObject debugPanel;
@@ -104,7 +104,7 @@ public class SmartGridBehavior : MonoBehaviour {
         return GetTileAt(coords.x, coords.y);
     }
 
-    public void AddItemToTileAt(TileItemBehavior item, int x, int y) {
+    public void AddItemToTileAt(Unit item, int x, int y) {
         item.SetHomeTile(GetTileAt(x, y));
         item.SetCurrentTile(GetTileAt(x, y));
         // GetTileAt(x, y).AddContent(item);

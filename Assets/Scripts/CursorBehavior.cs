@@ -10,7 +10,7 @@ public class CursorBehavior : MonoBehaviour {
     private TileBehavior currentTile;
     private TileBehavior destinationTile;
     private bool moving = false;
-    private TileItemBehavior selected;
+    private Unit selected;
     private List<TileBehavior> availableTiles;
 
     private Vector3 lastMousePosition;
@@ -68,7 +68,7 @@ public class CursorBehavior : MonoBehaviour {
         return currentTile;
     }
 
-    public TileItemBehavior GetSelected() {
+    public Unit GetSelected() {
         return selected;
     }
 
@@ -90,14 +90,14 @@ public class CursorBehavior : MonoBehaviour {
 
     public void Deselect () {
         if (selected) selected.Deselect();
-        selected = default(TileItemBehavior);
+        selected = default(Unit);
         foreach(TileBehavior tile in availableTiles) {
             tile.Unhighlight();
         }
         availableTiles = new List<TileBehavior>();
     }
 
-    private void SetSelected (TileItemBehavior item) {
+    private void SetSelected (Unit item) {
         selected = item;
         item.MyTile();
     }
