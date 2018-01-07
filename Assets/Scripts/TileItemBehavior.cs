@@ -100,10 +100,14 @@ public class TileItemBehavior : MonoBehaviour {
 	}
 
 	public void Deselect () {
+		currentTile.RemoveContent(this);
 		destinationTile = currentTile = homeTile;
+		homeTile.AddContent(this);
 	}
 
 	public void LockIn () {
 		SetHomeTile(currentTile);
+		Deselect();
+		Exhaust();
 	}
 }

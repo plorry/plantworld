@@ -90,7 +90,7 @@ public class SmartGridBehavior : MonoBehaviour {
     }
 
     public TileBehavior GetTileAt (int x, int y) {
-        if (x < 0 || y < 0 || x > xSize || y > ySize) {
+        if (x < 0 || y < 0 || x >= xSize || y >= ySize) {
             return null;
         }
         return myTiles[y][x];

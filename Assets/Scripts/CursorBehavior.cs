@@ -76,9 +76,11 @@ public class CursorBehavior : MonoBehaviour {
         if (!selected && GetTile().ContainsSelectable()) {
             Deselect();
             SetSelected(GetTile().GetSelectable());
+            print(GetTile().GetSelectable());
             availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed());
         } else if (selected) {
-
+            selected.LockIn();
+            Deselect();
         }
 
         foreach(TileBehavior tile in availableTiles) {
@@ -87,6 +89,7 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Deselect () {
+        if (selected) selected.Deselect();
         selected = default(TileItemBehavior);
         foreach(TileBehavior tile in availableTiles) {
             tile.Unhighlight();
