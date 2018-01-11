@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 	private List<Unit> myUnits;
 	private bool myTurn;
-	private string myName;
+	private string myName = "emptyName";
 	private List<Player> enemies;
 	private List<Player> allies;
 
@@ -17,6 +17,16 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public static Player MakePlayer(string name) {
+		Player p = new Player();
+		p.myName = name;
+		return p;
+	}
+
+	public void InitPlayer (string name) {
+		myName = name;
 	}
 
 	public void AddUnit (Unit unit) {

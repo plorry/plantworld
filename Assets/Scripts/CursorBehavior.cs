@@ -42,7 +42,7 @@ public class CursorBehavior : MonoBehaviour {
 
     private void UpdatePosition () {
         if (destinationTile != currentTile) {
-            transform.position = Vector2.MoveTowards(transform.position, destinationTile.transform.position, 0.2f);
+            transform.position = Vector2.MoveTowards(transform.position, destinationTile.transform.position, 0.1f);
         } else {
             transform.position = currentTile.transform.position;
         }
