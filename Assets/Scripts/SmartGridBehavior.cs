@@ -17,6 +17,7 @@ public class SmartGridBehavior : MonoBehaviour {
     public TileBehavior tilePrefab;
     public Unit testItem;
     private Tiled2Unity.ObjectLayer objectLayer;
+    private Tiled2Unity.ObjectLayer unitLayer;
     public Tiled2Unity.TiledMap tiledMap;
     public GameObject debugPanel;
 
@@ -33,6 +34,9 @@ public class SmartGridBehavior : MonoBehaviour {
         xSize = tiledMap.NumTilesWide;
         ySize = tiledMap.NumTilesHigh;
         objectLayer = tiledMap.transform.Find("Reactive").GetComponent<Tiled2Unity.ObjectLayer>();
+        unitLayer = tiledMap.transform.Find("UnitData").GetComponent<Tiled2Unity.ObjectLayer>();
+        // PlayerUnits layer is only for visual aid // to be destroyed at start of game
+        Destroy(tiledMap.transform.Find("PlayerUnits").gameObject);
     }
 
     // Make those tiles
