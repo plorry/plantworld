@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void AddUnit (Unit unit) {
+		unit.belongsTo = this;
 		myUnits.Add(unit);
 	}
 
@@ -61,6 +62,12 @@ public class Player : MonoBehaviour {
 		foreach (Unit unit in GetUnits()) {
 			unit.Exhaust();
 		}
+	}
+
+	public bool AreAllUnitsExhausted() {
+		return myUnits.TrueForAll(
+			x => x.exhausted == true
+		);
 	}
 
 	public override string ToString() {

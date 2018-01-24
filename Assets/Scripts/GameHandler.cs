@@ -28,7 +28,9 @@ public class GameHandler : MonoBehaviour {
 	}
 
 	public void InitUnits () {
-
+		foreach(Player player in players) {
+			smartGrid.InstantiateUnits(player);
+		}
 	}
 
 	public void InitMap () {

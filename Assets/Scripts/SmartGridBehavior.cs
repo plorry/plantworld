@@ -78,7 +78,7 @@ public class SmartGridBehavior : MonoBehaviour {
         return GetTileAt(x, y);
     }
 
-    private void InstantiateUnits (Tiled2Unity.ObjectLayer unitLayer) {
+    public void InstantiateUnits (Player player) {
         myUnits = new List<Unit>();
         foreach(Transform r in unitLayer.transform) {
             Tiled2Unity.RectangleObject rect = r.GetComponent<Tiled2Unity.RectangleObject>();
@@ -86,6 +86,7 @@ public class SmartGridBehavior : MonoBehaviour {
             Unit unit = Instantiate(
                 unitPrefabs.Find(x => x.name == rect.TmxName).prefab
             );
+            player.AddUnit(unit);
             AddItemToTile(unit, t);
         }
     }
@@ -95,7 +96,7 @@ public class SmartGridBehavior : MonoBehaviour {
         SetTileSettings();
         InstantiateTiles();
         SetTileProperties();
-        InstantiateUnits(unitLayer);
+        // InstantiateUnits(unitLayer);
     }
 	
 	// Update is called once per frame
