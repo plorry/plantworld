@@ -21,7 +21,16 @@ public class SmartGridBehavior : MonoBehaviour {
     public Tiled2Unity.TiledMap tiledMap;
     public GameObject debugPanel;
 
-    private TileBehavior[][] myTiles;    
+    private TileBehavior[][] myTiles;
+    private List<Unit> myUnits;
+
+    [System.Serializable]
+	public class UnitPrefab {
+		public string name;
+		public Unit prefab;
+	}
+
+    public List<UnitPrefab> unitPrefabs;
 
 	void Start () {
 		Init();
@@ -69,11 +78,24 @@ public class SmartGridBehavior : MonoBehaviour {
         return GetTileAt(x, y);
     }
 
+    private void InstantiateUnits (Tiled2Unity.ObjectLayer unitLayer) {
+        myUnits = new List<Unit>();
+        foreach(Transform r in unitLayer.transform) {
+            Tiled2Unity.RectangleObject rect = r.GetComponent<Tiled2Unity.RectangleObject>();
+            TileBehavior t = GetTileFromTMXRectangle(rect);
+            Unit unit = Instantiate(
+                unitPrefabs.Find(x => x.name == rect.TmxName).prefab
+            );
+            AddItemToTile(unit, t);
+        }
+    }
+
     // Initialize the grid from X-Y grid size and tilesize
     void Init () {
         SetTileSettings();
         InstantiateTiles();
         SetTileProperties();
+        InstantiateUnits(unitLayer);
     }
 	
 	// Update is called once per frame
@@ -109,9 +131,12 @@ public class SmartGridBehavior : MonoBehaviour {
     }
 
     public void AddItemToTileAt(Unit item, int x, int y) {
-        item.SetHomeTile(GetTileAt(x, y));
-        item.SetCurrentTile(GetTileAt(x, y));
-        // GetTileAt(x, y).AddContent(item);
+        AddItemToTile(item, GetTileAt(x, y));
+    }
+
+    public void AddItemToTile(Unit item, TileBehavior tile) {
+        item.SetHomeTile(tile);
+        item.SetCurrentTile(tile);
     }
 
     public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance) {

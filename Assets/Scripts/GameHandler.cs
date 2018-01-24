@@ -4,18 +4,9 @@ using UnityEngine;
 
 
 public class GameHandler : MonoBehaviour {
-	[System.Serializable]
-	public class UnitPrefab {
-		public string name;
-		public Unit prefab;
-	}
-
 	private SmartGridBehavior smartGrid;
 	private PlayerManager playerManager;
 	private List<Player> players;
-
-	public List<UnitPrefab> unitPrefabs;
-
 	// For now, hard-coding unit values into code - eventually will extract from Tile files
 
 	// Use this for initialization
