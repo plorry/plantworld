@@ -37,6 +37,11 @@ public class CursorBehavior : MonoBehaviour {
             }
             lastMousePosition = Input.mousePosition;
         }
+        if (selected) {
+            this.gameObject.GetComponent<Renderer>().enabled = false;
+        } else {
+            this.gameObject.GetComponent<Renderer>().enabled = true;
+        }
         UpdatePosition();
     }
 
@@ -89,7 +94,13 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Deselect () {
-        if (selected) selected.Deselect();
+        if (selected) {
+            selected.Deselect();
+        
+            currentTile = destinationTile = selected.GetCurrentTile();
+            transform.position = currentTile.transform.position;
+        }
+
         selected = default(Unit);
         foreach(TileBehavior tile in availableTiles) {
             tile.Unhighlight();
