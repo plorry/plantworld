@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		myUnits = new List<Unit>();
 	}
 	
 	// Update is called once per frame
@@ -19,8 +19,13 @@ public class Player : MonoBehaviour {
 		
 	}
 
+	public string GetName () {
+		return myName;
+	}
+
 	public static Player MakePlayer(string name) {
 		Player p = new Player();
+		p.Start();
 		p.myName = name;
 		return p;
 	}

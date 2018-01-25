@@ -78,15 +78,20 @@ public class SmartGridBehavior : MonoBehaviour {
         return GetTileAt(x, y);
     }
 
-    public void InstantiateUnits (Player player) {
+    public void InstantiateUnits (Player p) {
         myUnits = new List<Unit>();
+
         foreach(Transform r in unitLayer.transform) {
             Tiled2Unity.RectangleObject rect = r.GetComponent<Tiled2Unity.RectangleObject>();
+
+            if (p.GetName() != "player1") continue;
+
             TileBehavior t = GetTileFromTMXRectangle(rect);
             Unit unit = Instantiate(
                 unitPrefabs.Find(x => x.name == rect.TmxName).prefab
             );
-            player.AddUnit(unit);
+            unit.myName = "Morton";
+            p.AddUnit(unit);
             AddItemToTile(unit, t);
         }
     }

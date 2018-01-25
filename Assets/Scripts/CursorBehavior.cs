@@ -18,6 +18,19 @@ public class CursorBehavior : MonoBehaviour {
     private int actionDelay;
     private int numRepeats;
 
+    private Player currentPlayer;
+
+    public static CursorBehavior MkCursor (SmartGridBehavior grid, Camera camera) {
+        CursorBehavior cursor = new CursorBehavior();
+
+        cursor.myGrid = grid;
+        cursor.myCamera = camera;
+
+        cursor.currentTile = cursor.destinationTile = grid.GetTileAt(0, 0);
+
+        return cursor;
+    }
+
 	// Use this for initialization
 	void Start () {
         destinationTile = currentTile;
@@ -78,10 +91,9 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Select () {
-        if (!selected && GetTile().ContainsSelectable()) {
+        if (!selected && GetTile().ContainsSelectable(currentPlayer)) {
             Deselect();
-            SetSelected(GetTile().GetSelectable());
-            print(GetTile().GetSelectable());
+            SetSelected(GetTile().GetSelectable(currentPlayer));
             availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed());
         } else if (selected) {
             selected.LockIn();

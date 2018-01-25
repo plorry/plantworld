@@ -93,8 +93,6 @@ public class Unit : MonoBehaviour {
 
 	public void Exhaust () {
 		exhausted = true;
-
-		if (belongsTo.)
 	}
 
 	public void WakeUp () {
