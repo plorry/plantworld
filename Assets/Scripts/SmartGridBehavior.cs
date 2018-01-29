@@ -83,7 +83,7 @@ public class SmartGridBehavior : MonoBehaviour {
         foreach(Transform r in unitLayer.transform) {
             Tiled2Unity.RectangleObject rect = r.GetComponent<Tiled2Unity.RectangleObject>();
 
-            if (p.GetName() != "player1") continue;
+            if (p.GetName() != rect.TmxType) continue;
 
             TileBehavior t = GetTileFromTMXRectangle(rect);
             Unit unit = Instantiate(
