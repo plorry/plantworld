@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 	private List<Unit> myUnits;
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	public string GetName () {
@@ -69,10 +70,15 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public bool AreAllUnitsExhausted() {
-		return myUnits.TrueForAll(
+	public void CheckGridState () {
+		if (AreAllUnitsExhausted() == true) EndTurn();
+	}
+
+	public bool AreAllUnitsExhausted() { 
+		bool value = myUnits.TrueForAll(
 			x => x.exhausted == true
 		);
+		return value;
 	}
 
 	public override string ToString() {

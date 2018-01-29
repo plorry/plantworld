@@ -110,8 +110,10 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void LockIn () {
+		currentTile = destinationTile;
 		SetHomeTile(currentTile);
 		Deselect();
 		Exhaust();
+		belongsTo.CheckGridState();
 	}
 }

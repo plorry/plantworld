@@ -34,7 +34,6 @@ public class SmartGridBehavior : MonoBehaviour {
 
 	void Start () {
 		Init();
-        AddItemToTileAt(testItem, 5, 5);
 	}
 
     // Basically copying over a few settings from Tiled2Unity object
@@ -111,6 +110,8 @@ public class SmartGridBehavior : MonoBehaviour {
 
     private void UpdateDebug () {
         TileBehavior t = myCursor.GetTile();
+
+        if (t == null) return;
 
         string selected = (myCursor.GetSelected()) ? myCursor.GetSelected().ToString() : "";
 

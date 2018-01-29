@@ -6,21 +6,27 @@ public class PlayerManager : MonoBehaviour {
 	private List<Player> players;
 	private Queue<Player> turnQueue;
 	private Player currentPlayer;
+	private GameHandler handler;
 
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!currentPlayer.IsMyTurn()) {
+		if (currentPlayer.IsMyTurn() == false) {
 			NextTurn();
 		}
 	}
 
-	public static PlayerManager MakePlayerManager (List<Player> players) {
+	public void SetGameHandler(GameHandler gh) {
+		handler = gh;
+	}
+
+	public static PlayerManager MakePlayerManager (List<Player> players, GameHandler gh) {
 		PlayerManager p = new PlayerManager();
+
+		p.transform.SetParent(gh.transform);
 		p.InitPlayers(players);
 		return p;
 	}
@@ -29,15 +35,19 @@ public class PlayerManager : MonoBehaviour {
 		turnQueue.Enqueue(currentPlayer);
 		currentPlayer = turnQueue.Dequeue();
 		currentPlayer.StartTurn();
+
+		handler.DisplayTurnMessage(
+			string.Format("{0}'s turn", currentPlayer.ToString())
+		);
 	}
 
-	private void InitPlayers (List<Player> ps) {
+	public void InitPlayers (List<Player> players) {
 		turnQueue = new Queue<Player>();
-		players = ps;
 
-		foreach (Player p in ps) {
+		foreach (Player p in players) {
 			turnQueue.Enqueue(p);
 		}
 		currentPlayer = turnQueue.Dequeue();
+		currentPlayer.StartTurn();
 	}
 }
