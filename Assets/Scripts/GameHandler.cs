@@ -12,7 +12,13 @@ public class GameHandler : MonoBehaviour {
 	private CursorBehavior myCursor;
 	private Camera camera;
 	public Text turnIdicator;
+
+	public static GameHandler Instance { get; private set; }
 	// For now, hard-coding unit values into code - eventually will extract from Tile files
+
+	void Awake () {
+		Instance = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -32,8 +38,7 @@ public class GameHandler : MonoBehaviour {
 	}
 
 	public void InitPlayers() {
-		playerManager = gameObject.AddComponent<PlayerManager>() as PlayerManager;
-		playerManager.SetGameHandler(this);
+		playerManager = PlayerManager.Instance;
 
 		players = new List<Player>();
 
@@ -54,7 +59,7 @@ public class GameHandler : MonoBehaviour {
 	}
 
 	public void InitCursor () {
-		myCursor = CursorBehavior.MkCursor(smartGrid, camera);
+		myCursor = CursorBehavior.Instance;
 	}
 
 	public void DisplayTurnMessage (string message) {

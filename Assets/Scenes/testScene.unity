@@ -108,6 +108,46 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &64079583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 64079584}
+  - component: {fileID: 64079585}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &64079584
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 64079583}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.1254883, y: -2.3118372, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1044937135}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &64079585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 64079583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ab7ba273c41194f84082c6f4b178e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &210506576
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +344,8 @@ MonoBehaviour:
   unitPrefabs:
   - name: red-bantham
     prefab: {fileID: 114214152447654182, guid: 9a52f47e0b871ab479f093e6fb61dc2f, type: 2}
+  - name: red-flower
+    prefab: {fileID: 114838101081970670, guid: 77dde43d3fefc804c8c903e2167a69d9, type: 2}
 --- !u!4 &306252225
 Transform:
   m_ObjectHideFlags: 0
@@ -652,7 +694,7 @@ GameObject:
   - component: {fileID: 1029603389}
   - component: {fileID: 1029603392}
   m_Layer: 0
-  m_Name: cursor_0
+  m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -723,12 +765,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1029603388}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -7.96, y: 5.82, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1044937135}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1029603392
 MonoBehaviour:
@@ -772,8 +814,10 @@ Transform:
   - {fileID: 1983220054}
   - {fileID: 370739655}
   - {fileID: 2110094534}
+  - {fileID: 64079584}
+  - {fileID: 1029603391}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051932732
 GameObject:
@@ -937,7 +981,7 @@ RectTransform:
   - {fileID: 533819284}
   - {fileID: 241664122}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

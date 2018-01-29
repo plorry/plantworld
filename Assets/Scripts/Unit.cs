@@ -116,4 +116,8 @@ public class Unit : MonoBehaviour {
 		Exhaust();
 		belongsTo.CheckGridState();
 	}
+
+	public bool BelongsTo (Player player) {
+		return belongsTo.GetName() == player.GetName();
+	}
 }

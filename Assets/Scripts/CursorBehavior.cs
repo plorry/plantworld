@@ -18,27 +18,18 @@ public class CursorBehavior : MonoBehaviour {
     private int actionDelay;
     private int numRepeats;
 
-    private Player currentPlayer;
+    public static CursorBehavior Instance { get; private set; }
 
-    public static CursorBehavior MkCursor (SmartGridBehavior grid, Camera camera) {
-        CursorBehavior cursor = new CursorBehavior();
-
-        cursor.myGrid = grid;
-        cursor.myCamera = camera;
-
-        cursor.currentTile = cursor.destinationTile = grid.GetTileAt(0, 0);
-
-        return cursor;
+    void Awake () {
+        Instance = this;
     }
 
 	// Use this for initialization
 	void Start () {
-        destinationTile = currentTile;
-	}
-
-    void Awake () {
         availableTiles = new List<TileBehavior>();
-    }
+        myCamera = Camera.main;
+        destinationTile = currentTile = myGrid.GetTileAt(0, 0);
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -91,15 +82,14 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Select () {
-        if (!selected && GetTile().ContainsSelectable(currentPlayer)) {
+        if (!selected && GetTile().ContainsSelectable(PlayerManager.Instance.GetCurrentPlayer())) {
             Deselect();
-            SetSelected(GetTile().GetSelectable(currentPlayer));
+            SetSelected(GetTile().GetSelectable(PlayerManager.Instance.GetCurrentPlayer()));
             availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed());
         } else if (selected) {
             selected.LockIn();
             Deselect();
         }
-
         foreach(TileBehavior tile in availableTiles) {
             tile.Highlight();
         }

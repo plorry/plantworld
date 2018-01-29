@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour {
 	public CursorBehavior myCursor;
+
+	public static InputHandler Instance { get; private set; }
+
+	void Awake () {
+		Instance = this;
+	}
+
 	// Use this for initialization
 	void Start () {
-		
+		myCursor = CursorBehavior.Instance;
 	}
 	
 	// Update is called once per frame

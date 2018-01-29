@@ -6,7 +6,12 @@ public class PlayerManager : MonoBehaviour {
 	private List<Player> players;
 	private Queue<Player> turnQueue;
 	private Player currentPlayer;
-	private GameHandler handler;
+
+	public static PlayerManager Instance { get; private set; }
+
+	void Awake () {
+		Instance = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -17,10 +22,6 @@ public class PlayerManager : MonoBehaviour {
 		if (currentPlayer.IsMyTurn() == false) {
 			NextTurn();
 		}
-	}
-
-	public void SetGameHandler(GameHandler gh) {
-		handler = gh;
 	}
 
 	public static PlayerManager MakePlayerManager (List<Player> players, GameHandler gh) {
@@ -36,7 +37,7 @@ public class PlayerManager : MonoBehaviour {
 		currentPlayer = turnQueue.Dequeue();
 		currentPlayer.StartTurn();
 
-		handler.DisplayTurnMessage(
+		GameHandler.Instance.DisplayTurnMessage(
 			string.Format("{0}'s turn", currentPlayer.ToString())
 		);
 	}
@@ -49,5 +50,9 @@ public class PlayerManager : MonoBehaviour {
 		}
 		currentPlayer = turnQueue.Dequeue();
 		currentPlayer.StartTurn();
+	}
+
+	public Player GetCurrentPlayer () {
+		return currentPlayer;
 	}
 }
