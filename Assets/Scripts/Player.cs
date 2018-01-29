@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Player : MonoBehaviour {
 	private List<Unit> myUnits;
@@ -11,16 +12,21 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		myUnits = new List<Unit>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+	}
+
+	public string GetName () {
+		return myName;
 	}
 
 	public static Player MakePlayer(string name) {
 		Player p = new Player();
+		p.Start();
 		p.myName = name;
 		return p;
 	}
@@ -30,6 +36,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void AddUnit (Unit unit) {
+		unit.belongsTo = this;
 		myUnits.Add(unit);
 	}
 
@@ -61,6 +68,17 @@ public class Player : MonoBehaviour {
 		foreach (Unit unit in GetUnits()) {
 			unit.Exhaust();
 		}
+	}
+
+	public void CheckGridState () {
+		if (AreAllUnitsExhausted() == true) EndTurn();
+	}
+
+	public bool AreAllUnitsExhausted() { 
+		bool value = myUnits.TrueForAll(
+			x => x.exhausted == true
+		);
+		return value;
 	}
 
 	public override string ToString() {

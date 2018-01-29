@@ -34,7 +34,6 @@ public class SmartGridBehavior : MonoBehaviour {
 
 	void Start () {
 		Init();
-        AddItemToTileAt(testItem, 5, 5);
 	}
 
     // Basically copying over a few settings from Tiled2Unity object
@@ -78,14 +77,20 @@ public class SmartGridBehavior : MonoBehaviour {
         return GetTileAt(x, y);
     }
 
-    private void InstantiateUnits (Tiled2Unity.ObjectLayer unitLayer) {
+    public void InstantiateUnits (Player p) {
         myUnits = new List<Unit>();
+
         foreach(Transform r in unitLayer.transform) {
             Tiled2Unity.RectangleObject rect = r.GetComponent<Tiled2Unity.RectangleObject>();
+
+            if (p.GetName() != rect.TmxType) continue;
+
             TileBehavior t = GetTileFromTMXRectangle(rect);
             Unit unit = Instantiate(
                 unitPrefabs.Find(x => x.name == rect.TmxName).prefab
             );
+            unit.myName = "Morton";
+            p.AddUnit(unit);
             AddItemToTile(unit, t);
         }
     }
@@ -95,7 +100,7 @@ public class SmartGridBehavior : MonoBehaviour {
         SetTileSettings();
         InstantiateTiles();
         SetTileProperties();
-        InstantiateUnits(unitLayer);
+        // InstantiateUnits(unitLayer);
     }
 	
 	// Update is called once per frame
@@ -105,6 +110,8 @@ public class SmartGridBehavior : MonoBehaviour {
 
     private void UpdateDebug () {
         TileBehavior t = myCursor.GetTile();
+
+        if (t == null) return;
 
         string selected = (myCursor.GetSelected()) ? myCursor.GetSelected().ToString() : "";
 

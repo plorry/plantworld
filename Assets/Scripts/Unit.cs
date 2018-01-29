@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour {
 	public string myName;
 	public SmartGridBehavior myGrid;
 	private Vector2 myCoords;
-	public readonly string belongsTo = "player";
+	public Player belongsTo;
 	private int speed = 5;
 	private TileBehavior homeTile;
 	private TileBehavior currentTile;
@@ -45,6 +45,10 @@ public class Unit : MonoBehaviour {
 
 	override public string ToString() {
 		return GetName();
+	}
+
+	public void SetOwner (Player player) {
+		belongsTo = player;
 	}
 
 	public TileBehavior MyTile() {
@@ -106,8 +110,10 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void LockIn () {
+		currentTile = destinationTile;
 		SetHomeTile(currentTile);
 		Deselect();
 		Exhaust();
+		belongsTo.CheckGridState();
 	}
 }

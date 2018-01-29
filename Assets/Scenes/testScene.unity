@@ -192,8 +192,9 @@ GameObject:
   - component: {fileID: 241664122}
   - component: {fileID: 241664124}
   - component: {fileID: 241664123}
+  - component: {fileID: 241664125}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TurnText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,8 +215,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -634, y: -7.6}
-  m_SizeDelta: {x: 165.7, y: 45.3}
+  m_AnchoredPosition: {x: -748.9, y: -41.3}
+  m_SizeDelta: {x: 406, y: 112.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &241664123
 MonoBehaviour:
@@ -237,7 +238,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 120ac684e9e6ce542a5502efe6767471, type: 3}
     m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
@@ -256,6 +257,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 241664121}
+--- !u!114 &241664125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 241664121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd99e9da0da2111408f7771b3d716f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &306252223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1077,11 @@ Prefab:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23262326829852998, guid: 5367b56feff934f46b3ec65e326d7375,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5367b56feff934f46b3ec65e326d7375, type: 2}
   m_IsPrefabParent: 0
@@ -1223,3 +1240,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b362b35916c482049b8b4a1ede48d1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smartGrid: {fileID: 306252224}
+  turnIdicator: {fileID: 241664123}
