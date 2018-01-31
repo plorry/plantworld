@@ -85,7 +85,7 @@ public class CursorBehavior : MonoBehaviour {
         if (!selected && GetTile().ContainsSelectable(PlayerManager.Instance.GetCurrentPlayer())) {
             Deselect();
             SetSelected(GetTile().GetSelectable(PlayerManager.Instance.GetCurrentPlayer()));
-            availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed());
+            availableTiles = myGrid.GetAvailableTiles(GetTile(), selected.GetSpeed(), selected);
         } else if (selected) {
             selected.LockIn();
             Deselect();
@@ -117,8 +117,12 @@ public class CursorBehavior : MonoBehaviour {
 
     public void Move (string direction) {
         if (selected) {
-            if (availableTiles.Contains(selected.GetCurrentTile().GetNeighbour(direction))) {
+            TileBehavior desiredTile = selected.GetCurrentTile().GetNeighbour(direction);
+            if (availableTiles.Contains(desiredTile)) {
                 selected.Move(direction);
+            } else if (selected.IsAlly(desiredTile.GetUnit()) && availableTiles.Contains(desiredTile.GetNeighbour(direction))) {
+                // Ally on desired tile - we can jump over if the next tile is also available
+                selected.MoveTo(desiredTile.GetNeighbour(direction));
             }
         } else {
             if (!moving) {

@@ -146,7 +146,7 @@ public class SmartGridBehavior : MonoBehaviour {
         item.SetCurrentTile(tile);
     }
 
-    public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance) {
+    public List<TileBehavior> GetAvailableTiles (TileBehavior tile, int distance, Unit u = null) {
         List<TileBehavior> availableTiles = new List<TileBehavior>();
 
         if (distance <= 0) return availableTiles;
@@ -159,7 +159,7 @@ public class SmartGridBehavior : MonoBehaviour {
             thisLayer = new List<TileBehavior>();
             foreach(TileBehavior thisTile in lastLayer) {
                 foreach(TileBehavior neighbour in thisTile.GetNeighbours()) {
-                    if (neighbour.IsTraversable() && !thisLayer.Contains(neighbour) && !availableTiles.Contains(neighbour)) {
+                    if (neighbour.IsTraversable(u) && !thisLayer.Contains(neighbour) && !availableTiles.Contains(neighbour)) {
                         thisLayer.Add(neighbour);
                     }
                 }
@@ -170,6 +170,16 @@ public class SmartGridBehavior : MonoBehaviour {
 
             distance--;
         }
+        // remove ally tiles from available list
+        if (u != null) availableTiles = availableTiles.Except(GetUnitListTiles(u.GetAllies())).ToList();
+        // just a quickfix, since we'll have removed the home tile from the above list
+        availableTiles.Add(tile);
+
         return availableTiles;
     }
+
+    private List<TileBehavior> GetUnitListTiles (List<Unit> unitList) {
+        return unitList.Select(x => x.GetCurrentTile()).ToList();
+    }
+
 }

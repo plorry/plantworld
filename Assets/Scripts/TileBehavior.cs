@@ -74,12 +74,20 @@ public class TileBehavior : MonoBehaviour {
         return myContents.Contains(obj);
     }
 
+    public bool IsOccupied () {
+        return myContents.Count > 0;
+    }
+
     public bool ContainsSelectable (Player player) {
         return myContents.Any(obj => (obj.BelongsTo(player) && obj.exhausted == false));
     }
 
     public Unit GetSelectable (Player player) {
         return myContents.First(obj => obj.belongsTo == player && obj.exhausted == false);
+    }
+
+    public Unit GetUnit () {
+        return myContents.First();
     }
 
     public List<TileBehavior> GetNeighbours () {
@@ -134,7 +142,13 @@ public class TileBehavior : MonoBehaviour {
         Highlight(new Color(1f, 1f, 1f, 0f));
     }
 
-    public bool IsTraversable () {
-        return (!myProperties.Contains("water") && !myProperties.Contains("rock"));
+    public bool IsTraversable (Unit u = null) {
+        List<bool> conditionList = new List<bool>();
+        conditionList.Add(!myProperties.Contains("water"));
+        conditionList.Add(!myProperties.Contains("rock"));
+
+        if (u != null && IsOccupied()) conditionList.Add(!u.IsEnemy(GetUnit()));
+
+        return conditionList.All(x => x == true);
     }
 }

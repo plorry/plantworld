@@ -10,6 +10,7 @@ public class GameHandler : MonoBehaviour {
 	private PlayerManager playerManager;
 	private List<Player> players;
 	private CursorBehavior myCursor;
+	private List<Unit> allUnits;
 	private Camera camera;
 	public Text turnIdicator;
 
@@ -22,6 +23,7 @@ public class GameHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		allUnits = new List<Unit>();
 		camera = Camera.main;
 
 		InitPlayers();
@@ -51,6 +53,12 @@ public class GameHandler : MonoBehaviour {
 	public void InitUnits () {
 		foreach(Player p in players) {
 			smartGrid.InstantiateUnits(p);
+
+			print(p);
+			print(p.GetUnits());
+			print(allUnits);
+
+			allUnits = allUnits.Concat(p.GetUnits()).ToList();
 		}
 	}
 
@@ -65,5 +73,9 @@ public class GameHandler : MonoBehaviour {
 	public void DisplayTurnMessage (string message) {
 		turnIdicator.text = message;
 		turnIdicator.transform.position = new Vector2(-2, -8);
+	}
+
+	public List<Unit> GetAllUnits () {
+		return allUnits;
 	}
 }

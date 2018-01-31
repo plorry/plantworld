@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
+	private Guid id;
 	public string myName;
 	public SmartGridBehavior myGrid;
 	private Vector2 myCoords;
@@ -16,6 +19,7 @@ public class Unit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		id = Guid.NewGuid();
 		transform.position = currentTile.transform.position;
 		destinationTile = currentTile = homeTile;
 	}
@@ -82,7 +86,9 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void MoveTo(TileBehavior tile) {
-		SetDestinationTile(tile);
+		if (CanMove()) {
+			SetDestinationTile(tile);
+		}
 	}
 
 	public void Move (string direction) {
@@ -110,7 +116,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void LockIn () {
-		currentTile = destinationTile;
+		SetCurrentTile(destinationTile);
 		SetHomeTile(currentTile);
 		Deselect();
 		Exhaust();
@@ -120,4 +126,38 @@ public class Unit : MonoBehaviour {
 	public bool BelongsTo (Player player) {
 		return belongsTo.GetName() == player.GetName();
 	}
+
+	public bool IsAlly (Unit otherUnit) {
+		return otherUnit.belongsTo.GetName() == belongsTo.GetName();
+	}
+
+	public bool IsEnemy (Unit otherUnit) {
+		return !IsAlly(otherUnit);
+	}
+
+	public List<Unit> GetAllies () {
+		return belongsTo.GetUnits();
+	}
+
+	public List<Unit> GetEnemies () {
+		return GameHandler.Instance.GetAllUnits()
+			.Except(GetAllies())
+			.ToList();
+	}
+
+	public Guid GetId () {
+		return id;
+	}
+}
+
+public class UnitComparer : IEqualityComparer<Unit> {
+	public bool Equals(Unit x, Unit y)
+    {
+		return x.GetId().Equals(y.GetId());
+    }
+
+    public int GetHashCode(Unit obj)
+    {
+		return obj.GetId().GetHashCode();
+    }
 }
