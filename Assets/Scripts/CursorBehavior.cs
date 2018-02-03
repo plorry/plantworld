@@ -18,10 +18,15 @@ public class CursorBehavior : MonoBehaviour {
     private int actionDelay;
     private int numRepeats;
 
+    private Animator animator;
+    private GameObject interactCursor;
+    private bool interactVisible;
+
     public static CursorBehavior Instance { get; private set; }
 
     void Awake () {
         Instance = this;
+        animator = GetComponent<Animator>();
     }
 
 	// Use this for initialization
@@ -29,6 +34,8 @@ public class CursorBehavior : MonoBehaviour {
         availableTiles = new List<TileBehavior>();
         myCamera = Camera.main;
         destinationTile = currentTile = myGrid.GetTileAt(0, 0);
+        interactCursor = transform.Find("InteractCursor").gameObject;
+        interactCursor.GetComponent<Renderer>().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -45,6 +52,12 @@ public class CursorBehavior : MonoBehaviour {
             this.gameObject.GetComponent<Renderer>().enabled = false;
         } else {
             this.gameObject.GetComponent<Renderer>().enabled = true;
+        }
+
+        if (interactVisible == true) {
+            interactCursor.GetComponent<Renderer>().enabled = true;
+        } else {
+            interactCursor.GetComponent<Renderer>().enabled = false;
         }
         UpdatePosition();
     }
@@ -82,6 +95,12 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Select () {
+        if (interactVisible == true) {
+            selected.Attack(GetTile().GetUnit());
+            selected.LockIn();
+            Deselect();
+            interactVisible = false;
+        }
         if (!selected && GetTile().ContainsSelectable(PlayerManager.Instance.GetCurrentPlayer())) {
             Deselect();
             SetSelected(GetTile().GetSelectable(PlayerManager.Instance.GetCurrentPlayer()));
@@ -117,12 +136,22 @@ public class CursorBehavior : MonoBehaviour {
 
     public void Move (string direction) {
         if (selected) {
+            interactVisible = false;
             TileBehavior desiredTile = selected.GetCurrentTile().GetNeighbour(direction);
             if (availableTiles.Contains(desiredTile)) {
                 selected.Move(direction);
+                return;
             } else if (selected.IsAlly(desiredTile.GetUnit()) && availableTiles.Contains(desiredTile.GetNeighbour(direction))) {
                 // Ally on desired tile - we can jump over if the next tile is also available
                 selected.MoveTo(desiredTile.GetNeighbour(direction));
+                return;
+            }
+            
+            if (selected.IsEnemy(desiredTile.GetUnit())) {
+                // Enemy on tile - render InteractCursor
+                print("enemy on tile");
+                currentTile = destinationTile = desiredTile;
+                interactVisible = true;
             }
         } else {
             if (!moving) {

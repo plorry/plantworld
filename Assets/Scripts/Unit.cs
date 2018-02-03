@@ -148,16 +148,9 @@ public class Unit : MonoBehaviour {
 	public Guid GetId () {
 		return id;
 	}
-}
+	
+	public void Attack (Unit enemy) {
+		print(string.Format("{0} has attacked {1}", this, enemy));
+	}
 
-public class UnitComparer : IEqualityComparer<Unit> {
-	public bool Equals(Unit x, Unit y)
-    {
-		return x.GetId().Equals(y.GetId());
-    }
-
-    public int GetHashCode(Unit obj)
-    {
-		return obj.GetId().GetHashCode();
-    }
 }
