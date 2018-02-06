@@ -111,4 +111,8 @@ public class Player : MonoBehaviour {
 	public List<Player> GetAllies () {
 		return allies;
 	}
+
+	public List<Unit> GetAwakeUnits () {
+		return myUnits.FindAll(x => x.exhausted == false);
+	}
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 
 public class GameHandler : MonoBehaviour {
-	public SmartGridBehavior smartGrid;
+	private SmartGridBehavior smartGrid;
 	private PlayerManager playerManager;
 	private List<Player> players;
 	private CursorBehavior myCursor;
@@ -56,7 +56,7 @@ public class GameHandler : MonoBehaviour {
 	}
 
 	public void InitMap () {
-		
+		smartGrid = SmartGridBehavior.Instance;
 	}
 
 	public void InitCursor () {

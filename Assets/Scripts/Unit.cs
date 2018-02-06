@@ -29,6 +29,10 @@ public class Unit : MonoBehaviour {
 		UpdatePosition();
 	}
 
+	public bool IsMoving () {
+		return moving;
+	}
+
 	private void UpdatePosition () {
 		if (AtDestination() && moving == true) {
 			moving = false;
@@ -151,6 +155,22 @@ public class Unit : MonoBehaviour {
 	
 	public void Attack (Unit enemy) {
 		print(string.Format("{0} has attacked {1}", this, enemy));
+	}
+
+	public float DistanceTo (Unit otherUnit) {
+		return Math.Abs((transform.position - otherUnit.transform.position).magnitude);
+	}
+
+	public Unit ClosestAlly () {
+		return GetAllies().Aggregate(
+			(curMin, x) => (curMin == null || (DistanceTo(x) < DistanceTo(curMin)) ? x : curMin)
+		);
+	}
+
+	public Unit ClosestEnemy () {
+		return GetEnemies().Aggregate(
+			(curMin, x) => (curMin == null || (DistanceTo(x) < DistanceTo(curMin)) ? x : curMin)
+		);
 	}
 
 }

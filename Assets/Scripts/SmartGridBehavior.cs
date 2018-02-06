@@ -24,6 +24,8 @@ public class SmartGridBehavior : MonoBehaviour {
     private TileBehavior[][] myTiles;
     private List<Unit> myUnits;
 
+    public static SmartGridBehavior Instance { get; private set; }
+
     [System.Serializable]
 	public struct UnitPrefab {
 		public string name;
@@ -31,6 +33,10 @@ public class SmartGridBehavior : MonoBehaviour {
 	}
 
     public List<UnitPrefab> unitPrefabs;
+
+    void Awake () {
+        Instance = this;
+    }
 
 	void Start () {
 		Init();
