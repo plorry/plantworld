@@ -42,22 +42,15 @@ public class GameHandler : MonoBehaviour {
 	public void InitPlayers() {
 		playerManager = PlayerManager.Instance;
 
-		players = new List<Player>();
+		playerManager.AddNewPlayer("player1", true);
+		playerManager.AddNewPlayer("player2", false);
 
-		players.Add(Player.MakePlayer("player1"));
-		players.Add(Player.MakePlayer("player2"));
-
-		playerManager.InitPlayers(players);
+		playerManager.InitQueue();
 	}
 
 	public void InitUnits () {
-		foreach(Player p in players) {
+		foreach(Player p in playerManager.GetPlayers()) {
 			smartGrid.InstantiateUnits(p);
-
-			print(p);
-			print(p.GetUnits());
-			print(allUnits);
-
 			allUnits = allUnits.Concat(p.GetUnits()).ToList();
 		}
 	}

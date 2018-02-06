@@ -9,8 +9,17 @@ public class PlayerManager : MonoBehaviour {
 
 	public static PlayerManager Instance { get; private set; }
 
+	[System.Serializable]
+	public struct PlayerPrefab {
+		public Player prefab;
+		public string title;
+	}
+
+	public List<PlayerPrefab> playerPrefabs;
+
 	void Awake () {
 		Instance = this;
+		players = new List<Player>();
 	}
 
 	// Use this for initialization
@@ -24,12 +33,8 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	public static PlayerManager MakePlayerManager (List<Player> players, GameHandler gh) {
-		PlayerManager p = new PlayerManager();
-
-		p.transform.SetParent(gh.transform);
-		p.InitPlayers(players);
-		return p;
+	public List<Player> GetPlayers () {
+		return players;
 	}
 
 	public void NextTurn () {
@@ -42,7 +47,7 @@ public class PlayerManager : MonoBehaviour {
 		);
 	}
 
-	public void InitPlayers (List<Player> players) {
+	public void InitQueue () {
 		turnQueue = new Queue<Player>();
 
 		foreach (Player p in players) {
@@ -54,5 +59,15 @@ public class PlayerManager : MonoBehaviour {
 
 	public Player GetCurrentPlayer () {
 		return currentPlayer;
+	}
+
+	public void AddNewPlayer (string name, bool human = false) {
+		Player newPlayer;
+		newPlayer = (human == true) ?
+			Instantiate(playerPrefabs.Find(x => x.title == "human").prefab) :
+			Instantiate(playerPrefabs.Find(x => x.title == "ai").prefab);
+		newPlayer.SetName(name);
+
+		players.Add(newPlayer);
 	}
 }

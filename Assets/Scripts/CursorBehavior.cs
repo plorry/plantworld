@@ -149,7 +149,6 @@ public class CursorBehavior : MonoBehaviour {
             
             if (selected.IsEnemy(desiredTile.GetUnit())) {
                 // Enemy on tile - render InteractCursor
-                print("enemy on tile");
                 currentTile = destinationTile = desiredTile;
                 interactVisible = true;
             }

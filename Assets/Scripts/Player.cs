@@ -4,20 +4,27 @@ using UnityEngine;
 using System.Linq;
 
 public class Player : MonoBehaviour {
-	private List<Unit> myUnits;
-	private bool myTurn;
-	private string myName = "emptyName";
-	private List<Player> enemies;
-	private List<Player> allies;
+	protected List<Unit> myUnits;
+	protected bool myTurn;
+	protected string myName = "emptyName";
+	protected List<Player> enemies;
+	protected List<Player> allies;
 
+	void Awake () {
+		myUnits = new List<Unit>();
+	}
 	// Use this for initialization
 	void Start () {
-		myUnits = new List<Unit>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+	}
+
+	public void SetName (string name) {
+		myName = name;
 	}
 
 	public string GetName () {
@@ -44,12 +51,12 @@ public class Player : MonoBehaviour {
 		return myUnits;
 	}
 
-	public void StartTurn () {
+	public virtual void StartTurn () {
 		myTurn = true;
 		WakeMyUnits ();
 	}
 
-	public void EndTurn () {
+	public virtual void EndTurn () {
 		myTurn = false;
 		ExhaustMyUnits ();
 	}

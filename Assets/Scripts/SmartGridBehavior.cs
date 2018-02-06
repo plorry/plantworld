@@ -25,7 +25,7 @@ public class SmartGridBehavior : MonoBehaviour {
     private List<Unit> myUnits;
 
     [System.Serializable]
-	public class UnitPrefab {
+	public struct UnitPrefab {
 		public string name;
 		public Unit prefab;
 	}
