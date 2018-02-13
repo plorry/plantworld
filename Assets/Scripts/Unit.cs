@@ -10,12 +10,13 @@ public class Unit : MonoBehaviour {
 	public SmartGridBehavior myGrid;
 	private Vector2 myCoords;
 	public Player belongsTo;
-	private int speed = 5;
+	public int speed = 5;
 	private TileBehavior homeTile;
 	private TileBehavior currentTile;
 	private TileBehavior destinationTile;
 	private bool moving = false;
 	public bool exhausted = false;
+	private int movesLeft = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -98,6 +99,7 @@ public class Unit : MonoBehaviour {
 	public void Move (string direction) {
 		if (CanMove()) {
 			MoveTo(currentTile.GetNeighbour(direction));
+			movesLeft--;
 		}
 	}
 
@@ -107,6 +109,7 @@ public class Unit : MonoBehaviour {
 
 	public void WakeUp () {
 		exhausted = false;
+		movesLeft = speed;
 	}
 
 	public int GetSpeed () {
@@ -173,4 +176,11 @@ public class Unit : MonoBehaviour {
 		);
 	}
 
+	public int MovesLeft () {
+		return movesLeft;
+	}
+
+	public bool IsOutOfMoves () {
+		return movesLeft == 0;
+	}
 }

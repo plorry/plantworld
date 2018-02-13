@@ -55,6 +55,7 @@ MonoBehaviour:
   myName: 
   myGrid: {fileID: 0}
   belongsTo: {fileID: 0}
+  speed: 2
   exhausted: 0
 --- !u!212 &212370763218744540
 SpriteRenderer:

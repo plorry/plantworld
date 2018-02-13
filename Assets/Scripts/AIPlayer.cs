@@ -21,14 +21,14 @@ public class AIPlayer : Player {
         }
 
         if (currentUnit != null && !currentUnit.IsMoving() && choseMove == true) {
-            currentUnit.Exhaust();
+            if (currentUnit.IsOutOfMoves()) {
+               DeselectUnit();
+            }
             canGo = true;
             choseMove = false;
-            currentUnit = null;
-            CheckGridState();
         }
 
-        if (IsMyTurn() == true && canGo == true) {
+        if (IsMyTurn() && canGo == true && currentUnit != null) {
             RunAI();
         }
     }
@@ -43,11 +43,24 @@ public class AIPlayer : Player {
 
     private void RunAI () {
         // my turn; annihilate! kill!
-        target = currentUnit.ClosestEnemy();
-        print(string.Format("my target is {0} at position {1}", target, target.GetCurrentTile()));
-        MoveUnit(currentUnit, target);
-        canGo = false;
-        choseMove = true;
+        if (!target) target = currentUnit.ClosestEnemy();
+
+        if (currentUnit.GetCurrentTile().GetNeighbours().Contains(target.GetCurrentTile())) {
+            // the target is next to me! I will attack.
+            currentUnit.Attack(target);
+            DeselectUnit();
+        } else {
+            MoveUnit(currentUnit, target);
+            canGo = false;
+            choseMove = true;
+        }
+    }
+
+    private void DeselectUnit () {
+        currentUnit.Exhaust();
+        currentUnit = null;
+        target = null;
+        CheckGridState();
     }
 
     private void MoveUnit (Unit unit, Unit target) {
@@ -83,14 +96,16 @@ public class AIPlayer : Player {
 
     private void SetDesiredDirs (Unit unit, Unit target) {
         desiredDirs = new List<string>();
-        desiredDirs.Add(
-            (unit.transform.position.y - target.transform.position.y) > 0 ?
-                "down" : "up"
-        );
-        desiredDirs.Add(
-            (unit.transform.position.x - target.transform.position.x) > 0 ?
-                "left" : "right"
-        );
+
+        if (unit.GetCurrentTile().GetCoords().x > target.GetCurrentTile().GetCoords().x)
+            desiredDirs.Add("left");
+        if (unit.GetCurrentTile().GetCoords().x < target.GetCurrentTile().GetCoords().x)
+            desiredDirs.Add("right");
+        if (unit.GetCurrentTile().GetCoords().y > target.GetCurrentTile().GetCoords().y)
+            desiredDirs.Add("up");
+        if (unit.GetCurrentTile().GetCoords().y < target.GetCurrentTile().GetCoords().y)
+            desiredDirs.Add("down");
+
         desiredDirs = desiredDirs.OrderBy(x => rnd.Next()).ToList();
     }
 

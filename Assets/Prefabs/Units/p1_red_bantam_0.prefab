@@ -72,6 +72,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myName: 
   myGrid: {fileID: 0}
+  belongsTo: {fileID: 0}
+  speed: 4
   exhausted: 0
 --- !u!212 &212994484911211442
 SpriteRenderer:
