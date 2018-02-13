@@ -17,12 +17,19 @@ public class Unit : MonoBehaviour {
 	private bool moving = false;
 	public bool exhausted = false;
 	private int movesLeft = 0;
+	// Stats
+	private int maxHitPoints = 6;
+	private int hitPoints;
+	private AudioPlayer audioPlayer;
 
 	// Use this for initialization
 	void Start () {
 		id = Guid.NewGuid();
 		transform.position = currentTile.transform.position;
 		destinationTile = currentTile = homeTile;
+
+		hitPoints = maxHitPoints;
+		audioPlayer = AudioPlayer.Instance;
 	}
 	
 	// Update is called once per frame
@@ -158,6 +165,8 @@ public class Unit : MonoBehaviour {
 	
 	public void Attack (Unit enemy) {
 		print(string.Format("{0} has attacked {1}", this, enemy));
+		enemy.Hit(2);
+		audioPlayer.PlayOnce("hit");
 	}
 
 	public float DistanceTo (Unit otherUnit) {
@@ -182,5 +191,18 @@ public class Unit : MonoBehaviour {
 
 	public bool IsOutOfMoves () {
 		return movesLeft == 0;
+	}
+
+	public void Hit (int damage) {
+		hitPoints -= damage;
+		UpdateStatus();
+	}
+	// catch-all method to update a unit's status in the event that the state has changed
+	private void UpdateStatus () {
+		if (hitPoints == 0) Kill();
+	}
+
+	private void Kill () {
+		Debug.Log("I am dead");
 	}
 }

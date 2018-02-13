@@ -75,6 +75,7 @@ MonoBehaviour:
   belongsTo: {fileID: 0}
   speed: 4
   exhausted: 0
+  attackSound: {fileID: 8300000, guid: e110e0b59032a7747a57dd56153a111e, type: 3}
 --- !u!212 &212994484911211442
 SpriteRenderer:
   m_ObjectHideFlags: 1
