@@ -79,11 +79,11 @@ public class TileBehavior : MonoBehaviour {
     }
 
     public bool ContainsSelectable (Player player) {
-        return myContents.Any(obj => (obj.BelongsTo(player) && obj.exhausted == false));
+        return myContents.Any(obj => (obj.BelongsTo(player) && obj.IsSelectable()));
     }
 
     public Unit GetSelectable (Player player) {
-        return myContents.First(obj => obj.belongsTo == player && obj.exhausted == false);
+        return myContents.First(obj => obj.belongsTo == player && obj.IsSelectable());
     }
 
     public Unit GetUnit () {

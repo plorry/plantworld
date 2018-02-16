@@ -78,12 +78,19 @@ public class Player : MonoBehaviour {
 	}
 
 	public void CheckGridState () {
-		if (AreAllUnitsExhausted() == true) EndTurn();
+		if (AreAnyUnitsSelectable() == false) EndTurn();
 	}
 
 	public bool AreAllUnitsExhausted() { 
 		bool value = myUnits.TrueForAll(
 			x => x.exhausted == true
+		);
+		return value;
+	}
+
+	public bool AreAnyUnitsSelectable() {
+		bool value = myUnits.Any(
+			x=> x.IsSelectable()
 		);
 		return value;
 	}
@@ -114,5 +121,11 @@ public class Player : MonoBehaviour {
 
 	public List<Unit> GetAwakeUnits () {
 		return myUnits.FindAll(x => x.exhausted == false);
+	}
+
+	public List<Unit> GetSelectableUnits () {
+		return myUnits.FindAll(
+			x => x.IsSelectable()
+		);
 	}
 }

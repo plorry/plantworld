@@ -17,10 +17,20 @@ public class Unit : MonoBehaviour {
 	private bool moving = false;
 	public bool exhausted = false;
 	private int movesLeft = 0;
+    public bool isCaptured = false;
 	// Stats
 	private int maxHitPoints = 6;
-	private int hitPoints;
+	protected int hitPoints;
 	private AudioPlayer audioPlayer;
+
+	[System.Serializable]
+	public struct SpriteState {
+		public string name;
+		public Sprite sprite;
+	}
+
+	public List<SpriteState> spriteStates;
+	private string currentSpriteState = "static";
 
 	// Use this for initialization
 	void Start () {
@@ -198,11 +208,31 @@ public class Unit : MonoBehaviour {
 		UpdateStatus();
 	}
 	// catch-all method to update a unit's status in the event that the state has changed
-	private void UpdateStatus () {
+	protected virtual void UpdateStatus () {
 		if (hitPoints == 0) Kill();
 	}
 
 	private void Kill () {
 		Debug.Log("I am dead");
+	}
+
+	public void DefaultSpriteState () {
+		SetSpriteState("static");
+	}
+
+	public void SetSpriteState (string spriteName) {
+		currentSpriteState = spriteName;
+		GetComponent<SpriteRenderer>().sprite = spriteStates.Find(
+			s => s.name == spriteName
+		).sprite;
+	}
+
+	public void Capture () {
+        isCaptured = true;
+        SetSpriteState("trapped");
+    }
+
+	public bool IsSelectable () {
+		return isCaptured == false && exhausted == false;
 	}
 }

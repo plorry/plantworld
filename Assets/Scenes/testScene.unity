@@ -348,7 +348,7 @@ MonoBehaviour:
   debugPanel: {fileID: 533819283}
   unitPrefabs:
   - name: red-bantham
-    prefab: {fileID: 114214152447654182, guid: 9a52f47e0b871ab479f093e6fb61dc2f, type: 2}
+    prefab: {fileID: 114634284858432606, guid: 9a52f47e0b871ab479f093e6fb61dc2f, type: 2}
   - name: red-flower
     prefab: {fileID: 114838101081970670, guid: 77dde43d3fefc804c8c903e2167a69d9, type: 2}
 --- !u!4 &306252225
