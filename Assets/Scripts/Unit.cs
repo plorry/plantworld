@@ -169,6 +169,12 @@ public class Unit : MonoBehaviour {
 			.ToList();
 	}
 
+	public List<Unit> GetThreateningEnemies () {
+		return GetEnemies()
+			.Where(x => x.isCaptured == false)
+			.ToList();
+	}
+
 	public Guid GetId () {
 		return id;
 	}
@@ -190,7 +196,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	public Unit ClosestEnemy () {
-		return GetEnemies().Aggregate(
+		return GetThreateningEnemies().Aggregate(
 			(curMin, x) => (curMin == null || (DistanceTo(x) < DistanceTo(curMin)) ? x : curMin)
 		);
 	}
