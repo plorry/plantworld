@@ -51,7 +51,7 @@ public class GameHandler : MonoBehaviour {
 	public void InitUnits () {
 		foreach(Player p in playerManager.GetPlayers()) {
 			smartGrid.InstantiateUnits(p);
-			allUnits = allUnits.Concat(p.GetUnits()).ToList();
+			p.CacheMyUnits();
 		}
 	}
 
@@ -70,5 +70,15 @@ public class GameHandler : MonoBehaviour {
 
 	public List<Unit> GetAllUnits () {
 		return allUnits;
+	}
+
+	public void AddUnit (Unit unit) {
+		allUnits.Add(unit);
+		playerManager.GetPlayers().ForEach(p => p.CacheMyUnits());
+	}
+
+	public void DestroyUnit (Unit unit) {
+		allUnits.Remove(unit);
+		playerManager.GetPlayers().ForEach(p => p.CacheMyUnits());
 	}
 }

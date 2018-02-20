@@ -42,9 +42,11 @@ public class Player : MonoBehaviour {
 		myName = name;
 	}
 
-	public void AddUnit (Unit unit) {
-		unit.belongsTo = this;
-		myUnits.Add(unit);
+	public void CacheMyUnits () {
+		myUnits = GameHandler.Instance
+			.GetAllUnits()
+			.Where(x => x.BelongsTo(this))
+			.ToList();
 	}
 
 	public List<Unit> GetUnits () {

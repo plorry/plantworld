@@ -96,7 +96,8 @@ public class SmartGridBehavior : MonoBehaviour {
                 unitPrefabs.Find(x => x.name == rect.TmxName).prefab
             );
             unit.myName = "Morton";
-            p.AddUnit(unit);
+            unit.SetOwner(p);
+            GameHandler.Instance.AddUnit(unit);
             AddItemToTile(unit, t);
         }
     }

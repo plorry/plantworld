@@ -219,7 +219,8 @@ public class Unit : MonoBehaviour {
 	}
 
 	private void Kill () {
-		Debug.Log("I am dead");
+		RemoveFromLists();
+		Destroy(gameObject);
 	}
 
 	public void DefaultSpriteState () {
@@ -240,5 +241,17 @@ public class Unit : MonoBehaviour {
 
 	public bool IsSelectable () {
 		return isCaptured == false && exhausted == false;
+	}
+
+	private void RemoveFromLists () {
+		// TODO - maybe automate this by have lists clean themselves up - remove nulls?
+		GameHandler.Instance.DestroyUnit(this);
+		currentTile.RemoveContent(this);
+	}
+
+	public void Rescue (Unit unit) {
+		Debug.Log(string.Format("Rescued {0)", unit));
+		unit.isCaptured = false;
+		unit.hitPoints = 1;
 	}
 }

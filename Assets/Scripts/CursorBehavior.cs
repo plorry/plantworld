@@ -26,7 +26,6 @@ public class CursorBehavior : MonoBehaviour {
 
     void Awake () {
         Instance = this;
-        animator = GetComponent<Animator>();
     }
 
 	// Use this for initialization
@@ -34,8 +33,7 @@ public class CursorBehavior : MonoBehaviour {
         availableTiles = new List<TileBehavior>();
         myCamera = Camera.main;
         destinationTile = currentTile = myGrid.GetTileAt(0, 0);
-        interactCursor = transform.Find("InteractCursor").gameObject;
-        interactCursor.GetComponent<Renderer>().enabled = false;
+        animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -48,17 +46,17 @@ public class CursorBehavior : MonoBehaviour {
             }
             lastMousePosition = Input.mousePosition;
         }
-        if (selected) {
+        if (selected && animator.GetInteger("ActionIcon") == 0) {
             this.gameObject.GetComponent<Renderer>().enabled = false;
         } else {
             this.gameObject.GetComponent<Renderer>().enabled = true;
         }
 
-        if (interactVisible == true) {
-            interactCursor.GetComponent<Renderer>().enabled = true;
-        } else {
-            interactCursor.GetComponent<Renderer>().enabled = false;
-        }
+        //if (interactVisible == true) {
+        //    interactCursor.GetComponent<Renderer>().enabled = true;
+        //} else {
+        //    interactCursor.GetComponent<Renderer>().enabled = false;
+        //}
         UpdatePosition();
     }
 
@@ -95,12 +93,18 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     public void Select () {
-        if (interactVisible == true) {
+        if (animator.GetInteger("ActionIcon") == 1) {
+            // Attack
             selected.Attack(GetTile().GetUnit());
             selected.LockIn();
             Deselect();
-            interactVisible = false;
+        } else if (animator.GetInteger("ActionIcon") == 2) {
+            // rescue
+            selected.Rescue(GetTile().GetUnit());
+            selected.LockIn();
+            Deselect();
         }
+
         if (!selected && GetTile().ContainsSelectable(PlayerManager.Instance.GetCurrentPlayer())) {
             Deselect();
             SetSelected(GetTile().GetSelectable(PlayerManager.Instance.GetCurrentPlayer()));
@@ -117,9 +121,9 @@ public class CursorBehavior : MonoBehaviour {
     public void Deselect () {
         if (selected) {
             selected.Deselect();
-        
             currentTile = destinationTile = selected.GetCurrentTile();
             transform.position = currentTile.transform.position;
+            animator.SetInteger("ActionIcon", 0);
         }
 
         selected = default(Unit);
@@ -136,12 +140,11 @@ public class CursorBehavior : MonoBehaviour {
 
     public void Move (string direction) {
         if (selected) {
-            interactVisible = false;
             TileBehavior desiredTile = selected.GetCurrentTile().GetNeighbour(direction);
             if (availableTiles.Contains(desiredTile)) {
                 selected.Move(direction);
                 return;
-            } else if (selected.IsAlly(desiredTile.GetUnit()) && availableTiles.Contains(desiredTile.GetNeighbour(direction))) {
+            } else if (selected.IsAlly(desiredTile.GetUnit()) && desiredTile.GetUnit().isCaptured == false && availableTiles.Contains(desiredTile.GetNeighbour(direction))) {
                 // Ally on desired tile - we can jump over if the next tile is also available
                 selected.MoveTo(desiredTile.GetNeighbour(direction));
                 return;
@@ -150,7 +153,12 @@ public class CursorBehavior : MonoBehaviour {
             if (selected.IsEnemy(desiredTile.GetUnit())) {
                 // Enemy on tile - render InteractCursor
                 currentTile = destinationTile = desiredTile;
-                interactVisible = true;
+                animator.SetInteger("ActionIcon", 1);
+            } else if (selected.IsAlly(desiredTile.GetUnit()) && desiredTile.GetUnit().isCaptured == true) {
+                currentTile = destinationTile = desiredTile;
+                animator.SetInteger("ActionIcon", 2);
+            } else {
+                animator.SetInteger("ActionIcon", 0);
             }
         } else {
             if (!moving) {
