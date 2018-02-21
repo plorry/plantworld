@@ -98,7 +98,8 @@ public class CursorBehavior : MonoBehaviour {
             selected.Attack(GetTile().GetUnit());
             selected.LockIn();
             Deselect();
-        } else if (animator.GetInteger("ActionIcon") == 2) {
+        }
+        if (animator.GetInteger("ActionIcon") == 2) {
             // rescue
             selected.Rescue(GetTile().GetUnit());
             selected.LockIn();
@@ -143,6 +144,8 @@ public class CursorBehavior : MonoBehaviour {
             TileBehavior desiredTile = selected.GetCurrentTile().GetNeighbour(direction);
             if (availableTiles.Contains(desiredTile)) {
                 selected.Move(direction);
+                animator.SetInteger("ActionIcon", 0);
+                this.gameObject.GetComponent<Renderer>().enabled = false;
                 return;
             } else if (selected.IsAlly(desiredTile.GetUnit()) && desiredTile.GetUnit().isCaptured == false && availableTiles.Contains(desiredTile.GetNeighbour(direction))) {
                 // Ally on desired tile - we can jump over if the next tile is also available
@@ -157,8 +160,6 @@ public class CursorBehavior : MonoBehaviour {
             } else if (selected.IsAlly(desiredTile.GetUnit()) && desiredTile.GetUnit().isCaptured == true) {
                 currentTile = destinationTile = desiredTile;
                 animator.SetInteger("ActionIcon", 2);
-            } else {
-                animator.SetInteger("ActionIcon", 0);
             }
         } else {
             if (!moving) {

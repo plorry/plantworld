@@ -6,6 +6,6 @@ using UnityEngine;
 
 public class PlayerUnit : Unit {
     protected override void UpdateStatus () {
-         if (hitPoints == 0) Capture();
+         if (hitPoints <= 0) Capture();
     }   
 }

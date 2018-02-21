@@ -250,8 +250,8 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void Rescue (Unit unit) {
-		Debug.Log(string.Format("Rescued {0)", unit));
 		unit.isCaptured = false;
 		unit.hitPoints = 1;
+		unit.SetSpriteState("static");
 	}
 }
