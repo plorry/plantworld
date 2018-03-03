@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="6" height="6" tilewidth="16" tileheight="16" nextobjectid="10">
+ <tileset firstgid="1" source="maintileset.tsx"/>
+ <layer name="regions" width="6" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,33,0,33,0,33,
+0,0,0,0,0,0,
+0,33,0,33,0,33,
+0,0,0,0,0,0,
+0,33,0,33,0,33
+</data>
+ </layer>
+ <layer name="input_Inter" width="6" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,
+0,91,0,103,0,97,
+0,0,0,0,0,0,
+0,101,0,104,0,96,
+0,0,0,0,0,0,
+0,102,0,105,0,106
+</data>
+ </layer>
+ <objectgroup name="output_Reactive">
+  <object id="1" name="rock" type="rock" x="48" y="16" width="16" height="16"/>
+  <object id="2" name="rock" type="rock" x="16" y="16" width="16" height="16"/>
+  <object id="3" name="rock" type="rock" x="80" y="16" width="16" height="16"/>
+  <object id="4" name="rock" type="rock" x="48" y="48" width="16" height="16"/>
+  <object id="5" name="rock" type="rock" x="16" y="48" width="16" height="16"/>
+  <object id="6" name="rock" type="rock" x="80" y="48" width="16" height="16"/>
+  <object id="7" name="rock" type="rock" x="48" y="80" width="16" height="16"/>
+  <object id="8" name="rock" type="rock" x="16" y="80" width="16" height="16"/>
+  <object id="9" name="rock" type="rock" x="80" y="80" width="16" height="16"/>
+ </objectgroup>
+</map>

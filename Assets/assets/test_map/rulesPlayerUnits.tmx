@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="10" height="6" tilewidth="16" tileheight="16" nextobjectid="10">
+ <tileset firstgid="1" source="maintileset.tsx"/>
+ <tileset firstgid="201" name="p1_red_bantam" tilewidth="16" tileheight="16" tilecount="200" columns="10">
+  <image source="../units/p1_red_bantam.png" width="160" height="320"/>
+ </tileset>
+ <layer name="regions" width="10" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,6,0,6,0,6,0,6,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,6,0,6,0,6,0,6,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,6,0,6,0,6,0,6,0,0
+</data>
+ </layer>
+ <objectgroup name="output_UnitData">
+  <object id="7" name="red-bantham" type="player1" x="16" y="16" width="16" height="16">
+   <properties>
+    <property name="owner" value="player1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="input_PlayerUnits" width="10" height="6">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,201,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
