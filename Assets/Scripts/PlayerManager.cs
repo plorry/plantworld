@@ -45,6 +45,9 @@ public class PlayerManager : MonoBehaviour {
 		GameHandler.Instance.DisplayTurnMessage(
 			string.Format("{0}'s turn", currentPlayer.ToString())
 		);
+		GameHandler.Instance.GetCursor().PopulateSelectableUnits(
+			currentPlayer.GetSelectableUnits()
+		);
 	}
 
 	public void InitQueue () {
@@ -54,7 +57,6 @@ public class PlayerManager : MonoBehaviour {
 			turnQueue.Enqueue(p);
 		}
 		currentPlayer = turnQueue.Dequeue();
-		currentPlayer.StartTurn();
 	}
 
 	public Player GetCurrentPlayer () {

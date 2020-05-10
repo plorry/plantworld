@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour {
 	public CursorBehavior myCursor;
@@ -18,36 +19,7 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
-			Select();
-		} else if (Input.GetKeyDown(KeyCode.Joystick1Button2)) {
-			Deselect();
-		}
-		if (Input.GetMouseButtonDown(0)) {
-			Select();
-		}
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Deselect();
-		}
-		if (Input.GetAxis("Horizontal") > 0.5) {
-			Right();
-		} else if (Input.GetAxis("Vertical") > 0.5) {
-			Up();
-		} else if (Input.GetAxis("Horizontal") < -0.5) {
-			Left();
-		} else if (Input.GetAxis("Vertical") < -0.5) {
-			Down();
-		}
 
-		if (Input.GetAxis("DPadX") > 0.5) {
-			Right();
-		} else if (Input.GetAxis("DPadY") > 0.5) {
-			Up();
-		} else if (Input.GetAxis("DPadX") < -0.5) {
-			Left();
-		} else if (Input.GetAxis("DPadY") < -0.5) {
-			Down();
-		}
 	}
 
 	private void Select () {
@@ -72,5 +44,28 @@ public class InputHandler : MonoBehaviour {
 
 	private void Down() {
 		myCursor.Down();
+	}
+
+	private void OnMove(InputValue value) {
+		Vector2 dir = value.Get<Vector2>();
+		if (dir.x > 0.1) {
+			Right();
+		} else if (dir.x < -0.1) {
+			Left();
+		}
+
+		if (dir.y > 0.1) {
+			Up();
+		} else if (dir.y < -0.1) {
+			Down();
+		}
+	}
+
+	private void OnSubmit() {
+		Select();
+	}
+
+	private void OnCancel() {
+		Deselect();
 	}
 }

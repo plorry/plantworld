@@ -26,10 +26,10 @@ public class GameHandler : MonoBehaviour {
 		allUnits = new List<Unit>();
 		camera = Camera.main;
 
+		InitCursor();
 		InitPlayers();
 		InitMap();
 		InitUnits();
-		InitCursor();
 
 		DisplayTurnMessage("Player 1 turn");
 	}
@@ -61,6 +61,10 @@ public class GameHandler : MonoBehaviour {
 
 	public void InitCursor () {
 		myCursor = CursorBehavior.Instance;
+	}
+
+	public CursorBehavior GetCursor() {
+		return myCursor;
 	}
 
 	public void DisplayTurnMessage (string message) {

@@ -10,7 +10,9 @@ public class CursorBehavior : MonoBehaviour {
     private TileBehavior currentTile;
     private TileBehavior destinationTile;
     private bool moving = false;
+    private List<Unit> selectableUnits;
     private Unit selected;
+    private int selectableUnitsIndex;
     private List<TileBehavior> availableTiles;
 
     private Vector3 lastMousePosition;
@@ -34,18 +36,12 @@ public class CursorBehavior : MonoBehaviour {
         myCamera = Camera.main;
         destinationTile = currentTile = myGrid.GetTileAt(0, 0);
         animator = GetComponent<Animator>();
+        selectableUnits = new List<Unit>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.mousePosition != lastMousePosition) {
-            if (GetCurrentTile() != null && GetCurrentTile() != currentTile) {
-                currentTile = GetCurrentTile();
-                destinationTile = currentTile;
-                transform.position = new Vector2(currentTile.transform.position.x, currentTile.transform.position.y);
-            }
-            lastMousePosition = Input.mousePosition;
-        }
+
         if (selected && animator.GetInteger("ActionIcon") == 0) {
             this.gameObject.GetComponent<Renderer>().enabled = false;
         } else {
@@ -62,6 +58,7 @@ public class CursorBehavior : MonoBehaviour {
 
     private void UpdatePosition () {
         if (destinationTile != currentTile) {
+            Debug.Log(destinationTile);
             transform.position = Vector2.MoveTowards(transform.position, destinationTile.transform.position, 0.1f);
         } else {
             transform.position = currentTile.transform.position;
@@ -78,7 +75,6 @@ public class CursorBehavior : MonoBehaviour {
     }
 
     private TileBehavior GetCurrentTile() {
-        mouseCoords = myCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mouseCoords.x < 0) mouseCoords.x = 0;
         if (mouseCoords.y > 0) mouseCoords.y = 0;
         return myGrid.GetTileAt(Mathf.FloorToInt(mouseCoords.x), Mathf.FloorToInt(-mouseCoords.y));
@@ -162,10 +158,49 @@ public class CursorBehavior : MonoBehaviour {
                 animator.SetInteger("ActionIcon", 2);
             }
         } else {
-            if (!moving) {
-                moving = true;
-                destinationTile = currentTile.GetNeighbour(direction);
+            //var neighbour = currentTile.GetNeighbour(direction);
+            //if (!moving && neighbour) {
+            //    moving = true;
+            //    destinationTile = neighbour;
+            // }
+            switch (direction) {
+                case "left":
+                    GotoNextUnit();
+                    break;
+                case "right":
+                    GotoPrevUnit();
+                    break;
+                default:
+                    break;
             }
+        }
+    }
+
+    public void PopulateSelectableUnits(List<Unit> units) {
+        selectableUnits = units;
+        selectableUnits.ForEach(x => Debug.Log(x));
+        Debug.Log(selectableUnits.Count);
+        selectableUnitsIndex = 0;
+        if (selectableUnits.Count > 0) {
+            currentTile = selectableUnits[selectableUnitsIndex].GetCurrentTile();
+        }
+    }
+
+    protected void GotoNextUnit() {
+        selectableUnitsIndex += 1;
+        if (selectableUnitsIndex >= selectableUnits.Count) {
+            selectableUnitsIndex = 0;
+        }
+        if (selectableUnits.Count > 0) {
+            currentTile = selectableUnits[selectableUnitsIndex].GetCurrentTile();
+        }    }
+    protected void GotoPrevUnit() {
+        selectableUnitsIndex -= 1;
+        if (selectableUnitsIndex < 0) {
+            selectableUnitsIndex = selectableUnits.Count - 1;
+        }
+        if (selectableUnits.Count > 0) {
+            currentTile = selectableUnits[selectableUnitsIndex].GetCurrentTile();
         }
     }
 
